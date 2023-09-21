@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<meta charset="ISO-8859-1">
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    table {
+      border-collapse: collapse;
+      width: 80%;
+      max-width: 800px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 20px auto;
+    }
+    th, td {
+      padding: 15px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    tr:nth-child(even) {
+      background-color: #f7f7f7;
+    }
+    tr:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+  <title></title>
+</head>
+<body>
+<p th:if="${user != null}" th:text="${user.getUsername()}"></p><br>
+<p th:if="${user != null}" th:text="${user.getAuthorities()}"></p><br>
+<form th:if="${user != null}" th:action="@{/logout}" method="post">
+  <input type="submit" value="Logout">
+</form>
+<h2>Product List</h2>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Brand</th>
+    <th>Made In</th>
+    <th>Price</th>
+    <th sec:authorize="hasRole('ADMIN')">Actions</th>
+  </tr>
+  <tr th:each="product:${listProducts}">
+    <td th:text="${product.id}"></td>
+    <td th:text="${product.name}"></td>
+    <td th:text="${product.brand}"></td>
+    <td th:text="${product.madeIn}"></td>
+    <td th:text="${product.price}"></td>
+    <td sec:authorize="hasRole('ADMIN')">
+      <a th:href="@{'/edit/' + ${product.id}}">Edit</a>
+      <a th:href="@{'/delete/' + ${product.id}}">Delete</a>
+    </td>
+  </tr>
+</table>
+<a href="/new" class="create-link">Create New Product</a>
+</body>
+</html>
