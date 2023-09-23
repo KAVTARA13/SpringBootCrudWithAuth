@@ -60,7 +60,7 @@
     <th>Brand</th>
     <th>Made In</th>
     <th>Price</th>
-    <th sec:authorize="hasRole('ADMIN')">Actions</th>
+    <th sec:authorize="hasAnyRole('ADMIN','EDITOR')">Actions</th>
   </tr>
   <tr th:each="product:${listProducts}">
     <td th:text="${product.id}"></td>
@@ -68,9 +68,9 @@
     <td th:text="${product.brand}"></td>
     <td th:text="${product.madeIn}"></td>
     <td th:text="${product.price}"></td>
-    <td sec:authorize="hasRole('ADMIN')">
+    <td sec:authorize="hasAnyRole('ADMIN','EDITOR')">
       <a th:href="@{'/edit/' + ${product.id}}">Edit</a>
-      <a th:href="@{'/delete/' + ${product.id}}">Delete</a>
+      <a sec:authorize="hasRole('ADMIN')" th:href="@{'/delete/' + ${product.id}}">Delete</a>
     </td>
   </tr>
 </table>
