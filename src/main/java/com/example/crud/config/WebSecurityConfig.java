@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.swing.plaf.PanelUI;
@@ -80,8 +81,8 @@ public class WebSecurityConfig {
         authenticationManagerBuilder.authenticationProvider(authenticationProvider());
         http
                 .authorizeHttpRequests(form->form
-                        .requestMatchers(new AntPathRequestMatcher("/"))
-                        .permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/page/*")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/edit/*")).hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers(new AntPathRequestMatcher("/delete/*")).hasRole("ADMIN")
                         .anyRequest()

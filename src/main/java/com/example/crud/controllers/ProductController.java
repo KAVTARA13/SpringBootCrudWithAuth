@@ -3,6 +3,8 @@ package com.example.crud.controllers;
 import com.example.crud.entities.Product;
 import com.example.crud.services.impl.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +32,25 @@ public class ProductController {
     }
     @RequestMapping("/")
     public String viewHomePage(Model model,Authentication authentication){
-        List<Product> productList = productService.listAll();
+        return viewHomePageByNumber(model,authentication,1,"id","asc");
+    }
+    @RequestMapping("/page/{pageNumber}")
+    public String viewHomePageByNumber(Model model, Authentication authentication,
+                                       @PathVariable("pageNumber")int currentPage,
+                                       @Param("sortField") String sortField,
+                                       @Param("sortDir")String sortDir){
+        Page<Product> page = productService.listAll(currentPage,sortField,sortDir);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+
+        String reversSortDir = sortDir.equals("asc") ? "desc" : "asc";
+        model.addAttribute("reversSortDir", reversSortDir);
+        List<Product> productList = page.getContent();
         model.addAttribute("listProducts",productList);
 
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
