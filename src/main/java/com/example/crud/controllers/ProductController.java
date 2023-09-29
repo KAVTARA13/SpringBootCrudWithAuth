@@ -32,14 +32,15 @@ public class ProductController {
     }
     @RequestMapping("/")
     public String viewHomePage(Model model,Authentication authentication){
-        return viewHomePageByNumber(model,authentication,1,"id","asc");
+        return viewHomePageByNumber(model,authentication,1,"id","asc",null);
     }
     @RequestMapping("/page/{pageNumber}")
     public String viewHomePageByNumber(Model model, Authentication authentication,
                                        @PathVariable("pageNumber")int currentPage,
                                        @Param("sortField") String sortField,
-                                       @Param("sortDir")String sortDir){
-        Page<Product> page = productService.listAll(currentPage,sortField,sortDir);
+                                       @Param("sortDir")String sortDir,
+                                       @Param("keyword")String keyword){
+        Page<Product> page = productService.listAll(currentPage,sortField,sortDir,keyword);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         model.addAttribute("currentPage", currentPage);
@@ -47,6 +48,7 @@ public class ProductController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
+        model.addAttribute("keyword", keyword);
 
         String reversSortDir = sortDir.equals("asc") ? "desc" : "asc";
         model.addAttribute("reversSortDir", reversSortDir);

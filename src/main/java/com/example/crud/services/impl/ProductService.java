@@ -22,11 +22,14 @@ public class ProductService implements IProductService {
         this.productRepository = productRepository;
     }
     @Override
-    public Page<Product> listAll(int pageNumber,String sortField,String sortDir){
+    public Page<Product> listAll(int pageNumber,String sortField,String sortDir,String keyword){
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
         Pageable pageable = PageRequest.of(pageNumber-1,5,sort);
+        if (keyword != null){
+            return productRepository.findAll(keyword,pageable);
+        }
         return productRepository.findAll(pageable);
     }
     @Override
