@@ -3,6 +3,8 @@ package com.example.crud.services.impl;
 import com.example.crud.entities.Product;
 import com.example.crud.repositories.IProductRepository;
 import com.example.crud.services.IProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 @Service
 public class ProductService implements IProductService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 
     private final IProductRepository productRepository;
     @Autowired
@@ -38,7 +41,11 @@ public class ProductService implements IProductService {
     }
     @Override
     public Optional<Product> get(Long id){
-        return productRepository.findById(id);
+        LOGGER.warn("Enter method get");
+        LOGGER.info("Enter method get");
+        Optional<Product> product = productRepository.findById(id);
+        LOGGER.warn("Product: "+product);
+        return product;
     }
     @Override
     public void delete(Long id){

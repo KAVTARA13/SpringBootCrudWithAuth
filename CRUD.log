@@ -1,0 +1,8 @@
+2023-09-30 16:22:30,673 [http-nio-8181-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-09-30 16:22:30,674 [http-nio-8181-exec-1] INFO  o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-09-30 16:22:30,675 [http-nio-8181-exec-1] INFO  o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-09-30 16:37:54,986 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m10s254ms903µs300ns).
+2023-09-30 16:50:37,050 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m11s867ms990µs200ns).
+2023-09-30 17:21:38,065 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-09-30 17:21:38,081 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-09-30 17:21:38,081 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
