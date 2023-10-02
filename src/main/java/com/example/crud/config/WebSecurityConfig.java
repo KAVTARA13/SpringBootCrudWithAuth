@@ -81,8 +81,11 @@ public class WebSecurityConfig {
         authenticationManagerBuilder.authenticationProvider(authenticationProvider());
         http
                 .authorizeHttpRequests(form->form
-                        .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/page/*")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/page/*"),
+                                new AntPathRequestMatcher("/product/exportExcel"),
+                                new AntPathRequestMatcher("/product/exportPDF"),
+                                new AntPathRequestMatcher("/"),
+                                new AntPathRequestMatcher("/product/exportCSV")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/edit/*")).hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers(new AntPathRequestMatcher("/delete/*")).hasRole("ADMIN")
                         .anyRequest()

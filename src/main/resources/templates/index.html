@@ -110,6 +110,9 @@
 </form>
 <h2>Product List</h2>
 <a href="/login" class="signin-button">Sign In</a>
+<a th:href="@{/product/exportCSV}" class="signin-button">Export to CSV</a>
+<a th:href="@{/product/exportExcel}" class="signin-button">Export to Excel</a>
+<a th:href="@{/product/exportPDF}" class="signin-button">Export to PDF</a>
 <form th:action="@{/page/1}">
   <input type="hidden" name="sortField" th:value="${sortField}">
   <input type="hidden" name="sortDir" th:value="${sortDir}">

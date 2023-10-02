@@ -35,6 +35,12 @@ public class ProductService implements IProductService {
         }
         return productRepository.findAll(pageable);
     }
+
+    @Override
+    public List<Product> listAll() {
+        return productRepository.findAll();
+    }
+
     @Override
     public void save(Product product){
         productRepository.save(product);

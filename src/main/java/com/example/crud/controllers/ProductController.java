@@ -2,6 +2,9 @@ package com.example.crud.controllers;
 
 import com.example.crud.entities.Product;
 import com.example.crud.services.impl.ProductService;
+import com.example.crud.utils.ProductExcelExporter;
+import com.example.crud.utils.ProductPDFExporter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -12,12 +15,16 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,5 +102,58 @@ public class ProductController {
     public String deleteProduct(@PathVariable("id")Long id){
         productService.delete(id);
         return "redirect:/";
+    }
+
+    @RequestMapping("/product/exportCSV")
+    public void exportToCSV(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        String fileName="product"+currentDateTime+".csv";
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename="+fileName;
+
+        response.setHeader(headerKey,headerValue);
+
+        List<Product> productList = productService.listAll();
+
+        ICsvBeanWriter csvBeanWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+        String[] csvHeader = {"Product Id", "Product Name","Product Brand","Product Made In", "Product Price"};
+        String[] nameMapping = {"id","name","brand","madeIn","price"};
+
+        csvBeanWriter.writeHeader(csvHeader);
+        for (Product product:productList){
+            csvBeanWriter.write(product,nameMapping);
+        }
+        csvBeanWriter.close();
+    }
+
+    @GetMapping("/product/exportExcel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        response.setContentType("application/octet-stream");
+        String headerKey="Content-Disposition";
+        String headerValue = "attachment; filename=product"+currentDateTime+".xlsx";
+
+        response.setHeader(headerKey,headerValue);
+
+        List<Product> productList = productService.listAll();
+        ProductExcelExporter excelExporter = new ProductExcelExporter(productList);
+        excelExporter.export(response);
+    }
+    @GetMapping("/product/exportPDF")
+    public void exportToPDF(HttpServletResponse response) throws IOException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        response.setContentType("application/pdf");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=product"+currentDateTime+".pdf";
+
+        response.setHeader(headerKey,headerValue);
+        List<Product> productList = productService.listAll();
+        ProductPDFExporter exporter = new ProductPDFExporter(productList);
+        exporter.export(response);
     }
 }
