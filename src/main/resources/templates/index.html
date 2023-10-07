@@ -108,11 +108,13 @@
 <form th:if="${user != null}" th:action="@{/logout}" method="post">
   <input type="submit" value="Logout">
 </form>
-<h2>Product List</h2>
+<h2>[[#{app.title}]]</h2>
 <a href="/login" class="signin-button">Sign In</a>
 <a th:href="@{/product/exportCSV}" class="signin-button">Export to CSV</a>
 <a th:href="@{/product/exportExcel}" class="signin-button">Export to Excel</a>
 <a th:href="@{/product/exportPDF}" class="signin-button">Export to PDF</a>
+<a th:href="@{${currentPage != null ? '/page/'+currentPage : ''}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''+'&lang=en'}}" class="signin-button">English</a>
+<a th:href="@{${currentPage != null ? '/page/'+currentPage : ''}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''+'&lang=fr'}}" class="signin-button">French</a>
 <form th:action="@{/page/1}">
   <input type="hidden" name="sortField" th:value="${sortField}">
   <input type="hidden" name="sortDir" th:value="${sortDir}">

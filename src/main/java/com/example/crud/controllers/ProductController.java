@@ -4,6 +4,7 @@ import com.example.crud.entities.Product;
 import com.example.crud.services.impl.ProductService;
 import com.example.crud.utils.ProductExcelExporter;
 import com.example.crud.utils.ProductPDFExporter;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,18 +16,23 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class ProductController {
@@ -38,15 +44,26 @@ public class ProductController {
         this.productService =  productService;
     }
     @RequestMapping("/")
-    public String viewHomePage(Model model,Authentication authentication){
-        return viewHomePageByNumber(model,authentication,1,"id","asc",null);
+    public String viewHomePage(Model model, Authentication authentication, HttpServletRequest request){
+        Locale currentLocale = request.getLocale();
+        String countryCode = currentLocale.getCountry();
+        String countryName = currentLocale.getDisplayCountry();
+
+        String langCode = currentLocale.getLanguage();
+        String langName = currentLocale.getDisplayLanguage();
+
+        System.out.println(countryCode + " " + countryName);
+        System.out.println(langCode + " " + langName);
+
+        return viewHomePageByNumber(model,authentication,1,"id","asc",null,"");
     }
     @RequestMapping("/page/{pageNumber}")
     public String viewHomePageByNumber(Model model, Authentication authentication,
                                        @PathVariable("pageNumber")int currentPage,
                                        @Param("sortField") String sortField,
                                        @Param("sortDir")String sortDir,
-                                       @Param("keyword")String keyword){
+                                       @Param("keyword")String keyword,
+                                       @Param("lang") String lang){
         Page<Product> page = productService.listAll(currentPage,sortField,sortDir,keyword);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
@@ -79,8 +96,12 @@ public class ProductController {
         return "new_product";
     }
     @RequestMapping(value = "/save",method = RequestMethod.POST)
-    public String saveProduct(@ModelAttribute("product") Product product){
+    public String saveProduct(@ModelAttribute("product") Product product,
+                              @RequestParam("fileImage" ) MultipartFile multipartFile) throws IOException {
+        String filename = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        product.setImg(filename);
         productService.save(product);
+
         return "redirect:/";
     }
     @RequestMapping(value = "/edit_save",method = RequestMethod.POST)
