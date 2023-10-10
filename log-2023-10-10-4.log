@@ -1,0 +1,45 @@
+2023-10-10 04:59:52,652 [restartedMain] INFO  com.example.crud.CrudApplication         : Starting CrudApplication using Java 17.0.4.1 with PID 8672 (C:\Users\Luka\Desktop\Spring Boot\CRUD\target\classes started by Luka in C:\Users\Luka\Desktop\Spring Boot\CRUD)
+2023-10-10 04:59:52,657 [restartedMain] INFO  com.example.crud.CrudApplication         : No active profile set, falling back to 1 default profile: "default"
+2023-10-10 04:59:52,706 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-10 04:59:52,706 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-10 04:59:53,421 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-10 04:59:53,480 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 2 JPA repository interfaces.
+2023-10-10 04:59:53,846 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-10 04:59:53,874 [restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-10-10 04:59:54,143 [restartedMain] INFO  o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8181 (http)
+2023-10-10 04:59:54,152 [restartedMain] INFO  o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-10-10 04:59:54,152 [restartedMain] INFO  org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2023-10-10 04:59:54,206 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-10-10 04:59:54,207 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1500 ms
+2023-10-10 04:59:54,266 [restartedMain] WARN  o.a.c.c.C.[Tomcat].[localhost].[/]       : Cannot deserialize session attribute [SPRING_SECURITY_CONTEXT] for session [4DBD5F357F0963669187E041FD06D38A]
+2023-10-10 04:59:54,388 [restartedMain] INFO  o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-10 04:59:54,435 [restartedMain] INFO  org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.7.Final
+2023-10-10 04:59:54,437 [restartedMain] INFO  org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-10-10 04:59:54,560 [restartedMain] INFO  o.h.b.internal.BytecodeProviderInitiator : HHH000021: Bytecode provider name : bytebuddy
+2023-10-10 04:59:54,681 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-10 04:59:54,697 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-10-10 04:59:54,847 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@250fe23d
+2023-10-10 04:59:54,850 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-10-10 04:59:54,886 [restartedMain] WARN  org.hibernate.dialect.Dialect            : HHH000511: The 5.5.0 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 5.7.0. Check the community dialects project for available legacy versions.
+2023-10-10 04:59:55,091 [restartedMain] INFO  o.h.b.internal.BytecodeProviderInitiator : HHH000021: Bytecode provider name : bytebuddy
+2023-10-10 04:59:55,759 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-10 04:59:55,834 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-10 04:59:56,093 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-10-10 04:59:56,581 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-10 04:59:56,812 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@284ca1dc, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7407d856, org.springframework.security.web.context.SecurityContextHolderFilter@3337d115, org.springframework.security.web.header.HeaderWriterFilter@4e133f44, org.springframework.security.web.csrf.CsrfFilter@3a82ba93, org.springframework.security.web.authentication.logout.LogoutFilter@730325dc, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@10935080, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@19295df1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7142822c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7e9a8106, org.springframework.security.web.access.ExceptionTranslationFilter@393fe9b0, org.springframework.security.web.access.intercept.AuthorizationFilter@39ccab68]
+2023-10-10 04:59:57,147 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2023-10-10 04:59:57,531 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-10-10 04:59:57,573 [restartedMain] INFO  o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8181 (http) with context path ''
+2023-10-10 04:59:57,583 [restartedMain] INFO  com.example.crud.CrudApplication         : Started CrudApplication in 5.346 seconds (process running for 6.086)
+2023-10-10 04:59:59,623 [http-nio-8181-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-10 04:59:59,623 [http-nio-8181-exec-1] INFO  o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-10-10 04:59:59,624 [http-nio-8181-exec-1] INFO  o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-10-10 05:00:11,514 [http-nio-8181-exec-6] WARN  c.e.crud.services.impl.ProductService    : Enter method get
+2023-10-10 05:00:11,521 [http-nio-8181-exec-6] INFO  c.e.crud.services.impl.ProductService    : Enter method get
+2023-10-10 05:00:11,535 [http-nio-8181-exec-6] WARN  c.e.crud.services.impl.ProductService    : Product: Optional[Product(id=7, name=assdfdsf  asdasd, brand=asdasd, madeIn=sedrt, price=11.0)]
+2023-10-10 05:00:28,104 [http-nio-8181-exec-2] WARN  c.e.crud.services.impl.ProductService    : Enter method get
+2023-10-10 05:00:28,104 [http-nio-8181-exec-2] INFO  c.e.crud.services.impl.ProductService    : Enter method get
+2023-10-10 05:00:28,112 [http-nio-8181-exec-2] WARN  c.e.crud.services.impl.ProductService    : Product: Optional[Product(id=7, name=assdfdsf  asdasd, brand=asdasd <b>vczvvzbzzzbzbc</b>, madeIn=sedrt, price=11.0)]
+2023-10-10 05:01:12,071 [http-nio-8181-exec-9] WARN  c.e.crud.services.impl.ProductService    : Enter method get
+2023-10-10 05:01:12,077 [http-nio-8181-exec-9] INFO  c.e.crud.services.impl.ProductService    : Enter method get
+2023-10-10 05:01:12,077 [http-nio-8181-exec-9] WARN  c.e.crud.services.impl.ProductService    : Product: Optional[Product(id=7, name=assdfdsf  asdasd, brand=<table class="table-1"><tbody><tr><td> </td><td>zxcxz</td></tr><tr><td>zxczx</td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>zxczasdasd <b>vczvvzbzzzbzbc</b>, madeIn=sedrt, price=11.0)]

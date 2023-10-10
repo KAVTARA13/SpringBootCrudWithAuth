@@ -7,6 +7,7 @@ import com.example.crud.utils.ProductPDFExporter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -96,11 +97,8 @@ public class ProductController {
         return "new_product";
     }
     @RequestMapping(value = "/save",method = RequestMethod.POST)
-    public String saveProduct(@ModelAttribute("product") Product product,
-                              @RequestParam("fileImage" ) MultipartFile multipartFile) throws IOException {
-        String filename = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        product.setImg(filename);
-        productService.save(product);
+    public String saveProduct(@ModelAttribute("product") Product product) throws IOException {
+         productService.save(product);
 
         return "redirect:/";
     }
@@ -110,12 +108,16 @@ public class ProductController {
         return "redirect:/";
     }
     @RequestMapping("/edit/{id}")
-    public ModelAndView showNewProductForm(@PathVariable("id")Long id,Model model){
+    public ModelAndView showNewProductForm(@PathVariable("id")Long id,Model model) throws ChangeSetPersister.NotFoundException {
         ModelAndView mav = new ModelAndView("edit_product");
-        Optional<Product> product = productService.get(id);
+        Optional<Product> productOptional = productService.get(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         model.addAttribute("user",userDetails);
+
+        Product product = productOptional.orElseThrow(ChangeSetPersister.NotFoundException::new);
+        model.addAttribute("product", product);
+
         mav.addObject("product",product);
         return mav;
     }

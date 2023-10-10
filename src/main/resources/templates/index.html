@@ -113,8 +113,10 @@
 <a th:href="@{/product/exportCSV}" class="signin-button">Export to CSV</a>
 <a th:href="@{/product/exportExcel}" class="signin-button">Export to Excel</a>
 <a th:href="@{/product/exportPDF}" class="signin-button">Export to PDF</a>
-<a th:href="@{${currentPage != null ? '/page/'+currentPage : ''}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''+'&lang=en'}}" class="signin-button">English</a>
-<a th:href="@{${currentPage != null ? '/page/'+currentPage : ''}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''+'&lang=fr'}}" class="signin-button">French</a>
+<a th:href="@{${currentPage != null ? '/page/'+currentPage : ''}+'?sortField='+${sortField}+'&sortDir='+${sortDir}
++${keyword != null ? '&keyword='+keyword : ''+'&lang=en'}}" class="signin-button">English</a>
+<a th:href="@{${currentPage != null ? '/page/'+currentPage : ''}+'?sortField='+${sortField}+'&sortDir='+${sortDir}
++${keyword != null ? '&keyword='+keyword : ''+'&lang=fr'}}" class="signin-button">French</a>
 <form th:action="@{/page/1}">
   <input type="hidden" name="sortField" th:value="${sortField}">
   <input type="hidden" name="sortDir" th:value="${sortDir}">
@@ -145,7 +147,9 @@
   <tr th:each="product:${listProducts}">
     <td th:text="${product.id}"></td>
     <td th:text="${product.name}"></td>
-    <td th:text="${product.brand}"></td>
+    <td>
+      <div th:utext="${product.brand}"></div>
+    </td>
     <td th:text="${product.madeIn}"></td>
     <td th:text="${product.price}"></td>
     <td sec:authorize="hasAnyRole('ADMIN','EDITOR')">
@@ -160,16 +164,21 @@ of <span th:text="${totalPages}"></span>
 
 <div class="pagination">
     <span th:each="i : ${#numbers.sequence(1,totalPages)}">
-        <a th:if="${i != currentPage}" th:href="@{'/page/'+${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="${i}"></a>
+        <a th:if="${i != currentPage}" th:href="@{'/page/'+${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}
+        +${keyword != null ? '&keyword='+keyword : ''}}" th:text="${i}"></a>
         <span th:if="${i == currentPage}" class="current" th:text="${i}"></span>
     </span>
-  <a th:if="${currentPage > 1}" th:href="@{'/page/1'+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">First</a>
+  <a th:if="${currentPage > 1}" th:href="@{'/page/1'+'?sortField='+${sortField}+'&sortDir='+${sortDir}
+  +${keyword != null ? '&keyword='+keyword : ''}}">First</a>
   <span th:unless="${currentPage > 1}">First</span>
-  <a th:if="${currentPage > 1}" th:href="@{'/page/'+${currentPage - 1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">Previous</a>
+  <a th:if="${currentPage > 1}" th:href="@{'/page/'+${currentPage - 1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}
+  +${keyword != null ? '&keyword='+keyword : ''}}">Previous</a>
   <span th:unless="${currentPage > 1}">Previous</span>
-  <a th:if="${currentPage < totalPages}" th:href="@{'/page/'+${currentPage + 1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">Next</a>
+  <a th:if="${currentPage < totalPages}" th:href="@{'/page/'+${currentPage + 1}+'?sortField='+${sortField}+'&sortDir='
+  +${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">Next</a>
   <span th:unless="${currentPage < totalPages}">Next</span>
-  <a th:if="${currentPage < totalPages}" th:href="@{'/page/'+${totalPages}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">Last</a>
+  <a th:if="${currentPage < totalPages}" th:href="@{'/page/'+${totalPages}+'?sortField='+${sortField}+'&sortDir='
+  +${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">Last</a>
   <span th:unless="${currentPage < totalPages}">Last</span>
 </div>
 

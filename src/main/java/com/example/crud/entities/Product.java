@@ -18,7 +18,6 @@ public class Product {
     private String brand;
     private String madeIn;
     private float price;
-    private String img;
 
 
 }
