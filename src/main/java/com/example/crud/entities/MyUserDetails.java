@@ -23,6 +23,9 @@ public class MyUserDetails implements UserDetails {
         }
         return authorities;
     }
+    public Users getUser(){
+        return this.user;
+    }
 
     @Override
     public String getPassword() {

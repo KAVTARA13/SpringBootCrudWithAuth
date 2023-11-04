@@ -58,6 +58,7 @@ public class ProductController {
 
         return viewHomePageByNumber(model,authentication,1,"id","asc",null,"");
     }
+
     @RequestMapping("/page/{pageNumber}")
     public String viewHomePageByNumber(Model model, Authentication authentication,
                                        @PathVariable("pageNumber")int currentPage,

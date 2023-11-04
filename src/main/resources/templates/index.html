@@ -101,6 +101,7 @@
 
   </style>
   <title></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <p th:if="${user != null}" th:text="${user.getUsername()}"></p><br>
@@ -152,6 +153,10 @@
     </td>
     <td th:text="${product.madeIn}"></td>
     <td th:text="${product.price}"></td>
+    <td sec:authorize="hasAnyRole('ADMIN','EDITOR','USER')"
+        th:replace="quantity_control :: quantity_control(1,${product.id})"></td>
+    <button id="buttonAdd2Cart" th:attr="onclick=|addToCart('${product.id}')|" >Add to Cart</button>
+
     <td sec:authorize="hasAnyRole('ADMIN','EDITOR')">
       <a th:href="@{'/edit/' + ${product.id}}">Edit</a>
       <a sec:authorize="hasRole('ADMIN')" th:href="@{'/delete/' + ${product.id}}">Delete</a>
@@ -184,9 +189,15 @@ of <span th:text="${totalPages}"></span>
 
 <a href="/new" class="create-link">Create New Product</a>
 <script type="text/javascript">
+  contextPath= "[[@{/}]]";
+  var csrfHeaderName = "[[${_csrf.headerName}]]";
+  var csrfToken = "[[${_csrf.token}]]";
+
   function clearFilter(){
     window.location='/';
   }
 </script>
+<script th:src="@{/richtext/quantity_control.js}"></script>
+<script th:src="@{/richtext/add_to_cart.js}"></script>
 </body>
 </html>

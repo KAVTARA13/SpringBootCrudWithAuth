@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="quantity_control(qtyValue,productId)">
+        <a class="minusButton" th:pid="${productId}"><b>-</b></a>
+        <input th:value="${qtyValue}" th:id="'quantity'+${productId}">
+        <a class="plusButton" th:pid="${productId}"><b>+</b></a>
+    </div>
+</body>
+</html>

@@ -85,6 +85,7 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/product/exportExcel"),
                                 new AntPathRequestMatcher("/product/exportPDF"),
                                 new AntPathRequestMatcher("/"),
+                                new AntPathRequestMatcher("/addToCart/add/*"),
                                 new AntPathRequestMatcher("/product/exportCSV")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/edit/*")).hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers(new AntPathRequestMatcher("/delete/*")).hasRole("ADMIN")
