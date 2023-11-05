@@ -11,10 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.swing.plaf.PanelUI;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -55,9 +58,11 @@ public class WebSecurityConfig {
 //        return new InMemoryUserDetailsManager(userDetails,userDetails2);
 //    }
     private final IUsersRepository usersRepository;
+    private final DataSource dataSource;
 
-    public WebSecurityConfig( IUsersRepository usersRepository) {
+    public WebSecurityConfig(IUsersRepository usersRepository, DataSource dataSource) {
         this.usersRepository = usersRepository;
+        this.dataSource = dataSource;
     }
 
     @Bean
@@ -77,7 +82,15 @@ public class WebSecurityConfig {
         return authenticationProvider;
     }
     @Bean
-    protected SecurityFilterChain configure(HttpSecurity http,AuthenticationManagerBuilder authenticationManagerBuilder)throws Exception{
+    RememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
+        TokenBasedRememberMeServices.RememberMeTokenAlgorithm encodingAlgorithm = TokenBasedRememberMeServices.RememberMeTokenAlgorithm.SHA256;
+        TokenBasedRememberMeServices rememberMe = new TokenBasedRememberMeServices("remember-me", userDetailsService, encodingAlgorithm);
+        rememberMe.setMatchingAlgorithm(TokenBasedRememberMeServices.RememberMeTokenAlgorithm.MD5);
+        return rememberMe;
+    }
+    @Bean
+    protected SecurityFilterChain configure(HttpSecurity http,AuthenticationManagerBuilder authenticationManagerBuilder
+            ,RememberMeServices rememberMeServices)throws Exception{
         authenticationManagerBuilder.authenticationProvider(authenticationProvider());
         http
                 .authorizeHttpRequests(form->form
@@ -95,9 +108,22 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .permitAll())
                 .logout(form -> form
-                .logoutUrl("/logout")
-                .permitAll())
-                .exceptionHandling(e->e.accessDeniedPage("/403"));
+                    .logoutUrl("/logout")
+                        .deleteCookies("remember-me")
+                    .permitAll())
+                .rememberMe((remember) -> remember
+                        .rememberMeServices(rememberMeServices)
+                        .tokenValiditySeconds(3*24*60*60)
+                        .tokenRepository(persistentTokenRepository())
+                        .rememberMeParameter("remember-me"))
+                .exceptionHandling(e->e
+                        .accessDeniedPage("/403"));
         return http.build();
+    }
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        return null;
     }
 }
